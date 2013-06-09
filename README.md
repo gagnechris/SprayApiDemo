@@ -47,3 +47,10 @@ Known Issues
 ------------
 
 This demo application is a work in progress.  The TimezoneService is not fully functional because I have not been able to figure out how to get HTTPS working with Google's APIs which require you to use HTTPS instead of HTTP.
+
+What's on my ToDo List for this Project
+---------------------------------------
+1. Get HTTPS working
+2. Add some useful Test to demonstrate how to test Spray services
+3. Add additional validation to provide more helpful messages when the user submit bad parameter values (e.g. Longitude great than 180)
+4. Confirm we're shutting down our actors correctly
