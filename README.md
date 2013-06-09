@@ -28,30 +28,30 @@ What's Going On
 Here is a step-by-step explaination of what I did, so that you can use this to build your own APIs using Scala/Spray.  Assumption: Use sbt, it's definitly the way to go.
 
 1. Add spray to your ./project/plugins.sbt file.
-`addSbtPlugin("io.spray" % "sbt-revolver" % "0.6.2")`
+    addSbtPlugin("io.spray" % "sbt-revolver" % "0.6.2")
 2. Add the spray resolver and bring in the required dependencis to your build.sbt file.
-`resolvers ++= Seq(
-  "spray repo" at "http://repo.spray.io/"
-)
+    resolvers ++= Seq(
+      "spray repo" at "http://repo.spray.io/"
+    )
 
-libraryDependencies ++= {
-  val sprayVersion = "1.1-M7"
-  val akkaVersion = "2.1.4"
-  Seq(
-    "io.spray" % "spray-can" % sprayVersion,
-    "io.spray" % "spray-routing" % sprayVersion,
-    "io.spray" % "spray-testkit" % sprayVersion,
-    "io.spray" % "spray-client" % sprayVersion,
-    "io.spray" %%  "spray-json" % "1.2.5",
-    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-    "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
-    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
-    "ch.qos.logback" % "logback-classic" % "1.0.12",
-    "org.scalatest" %% "scalatest" % "2.0.M6-SNAP14" % "test"
-  )
-}
+    libraryDependencies ++= {
+      val sprayVersion = "1.1-M7"
+      val akkaVersion = "2.1.4"
+      Seq(
+        "io.spray" % "spray-can" % sprayVersion,
+        "io.spray" % "spray-routing" % sprayVersion,
+        "io.spray" % "spray-testkit" % sprayVersion,
+        "io.spray" % "spray-client" % sprayVersion,
+        "io.spray" %%  "spray-json" % "1.2.5",
+        "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+        "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+        "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
+        "ch.qos.logback" % "logback-classic" % "1.0.12",
+        "org.scalatest" %% "scalatest" % "2.0.M6-SNAP14" % "test"
+      )
+    }
 
-seq(Revolver.settings: _*)`
+    seq(Revolver.settings: _*)`
 
 What I like/Dislike About All This
 ----------------------------------
