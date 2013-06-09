@@ -25,9 +25,44 @@ Technologies Used
 What's Going On
 ---------------
 
-Here is a step-by-step explaination of what I did, so that you can use this to build your own APIs using Scala/Spray.
+Here is a step-by-step explaination of what I did, so that you can use this to build your own APIs using Scala/Spray.  Assumption: Use sbt, it's definitly the way to go.
 
-...
+1. Add spray to your ./project/plugins.sbt file.
+`addSbtPlugin("io.spray" % "sbt-revolver" % "0.6.2")`
+2. Add the spray resolver and bring in the required dependencis to your build.sbt file.
+`resolvers ++= Seq(
+  "spray repo" at "http://repo.spray.io/"
+)
+
+libraryDependencies ++= {
+  val sprayVersion = "1.1-M7"
+  val akkaVersion = "2.1.4"
+  Seq(
+    "io.spray" % "spray-can" % sprayVersion,
+    "io.spray" % "spray-routing" % sprayVersion,
+    "io.spray" % "spray-testkit" % sprayVersion,
+    "io.spray" % "spray-client" % sprayVersion,
+    "io.spray" %%  "spray-json" % "1.2.5",
+    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+    "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
+    "ch.qos.logback" % "logback-classic" % "1.0.12",
+    "org.scalatest" %% "scalatest" % "2.0.M6-SNAP14" % "test"
+  )
+}
+
+seq(Revolver.settings: _*)`
+
+What I like/Dislike About All This
+----------------------------------
+
+### Likes
+1. Spray is based on Akka, which is very familiar
+2. Spray routing is easy to use and pretty powerful
+3. Spray allows you to pick what you want a la carte.  Unlike other web frameworks, you only need to take what you'll use.
+
+### Dislikes
+1. Spray documentation lacks good examples and it's difficult to fine examples online.  You are pretty much on your own.
 
 Known Issues
 ------------
