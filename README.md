@@ -28,7 +28,6 @@ What's Going On
 Here is a step-by-step explaination of what I did, so that you can use this to build your own APIs using Scala/Spray.  Assumption: Use sbt, it's definitly the way to go.
 
 1. Add spray to your ./project/plugins.sbt file.
-    addSbtPlugin("io.spray" % "sbt-revolver" % "0.6.2")
 2. Add the spray resolver and bring in the required dependencis to your build.sbt file.
     resolvers ++= Seq(
       "spray repo" at "http://repo.spray.io/"
@@ -52,8 +51,17 @@ Here is a step-by-step explaination of what I did, so that you can use this to b
     }
 
     seq(Revolver.settings: _*)
+3. Create the Service App.  Here we called it ./project/src/main/SprayApiServiceApp.scala.  This will create your Actor system, HttpConduit and maintain your routes.  This is also the entry point for your application.
+4. Create the Service Actor, which the App we created in step 3 will hand work off to.  See ./project/src/main/ElevationService.scala as an example.  This will process the business logic.  Here we also call other services to fulfill the request.
 
 Known Issues
 ------------
 
 This demo application is a work in progress.  The TimezoneService is not fully functional because I have not been able to figure out how to get HTTPS working with Google's APIs which require you to use HTTPS instead of HTTP.
+
+What's on my ToDo List for this Project
+---------------------------------------
+1. Get HTTPS working
+2. Add some useful Test to demonstrate how to test Spray services
+3. Add additional validation to provide more helpful messages when the user submit bad parameter values (e.g. Longitude great than 180)
+4. Confirm we're shutting down our actors correctly
