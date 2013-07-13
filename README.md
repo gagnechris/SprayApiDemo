@@ -17,7 +17,7 @@ Getting Started
 Technologies Used
 -----------------
 
-1. Spray 1.1-M7
+1. Spray 1.1-M8
 2. Akka 2.1.4
 3. Scala 1.10.1
 4. ScalaTest 2.0.M6-SNAP14 (Implementation coming soon)
@@ -35,7 +35,7 @@ Here is a step-by-step explaination of what I did, so that you can use this to b
     )
 
     libraryDependencies ++= {
-      val sprayVersion = "1.1-M7"
+      val sprayVersion = "1.1-M8"
       val akkaVersion = "2.1.4"
       Seq(
         "io.spray" % "spray-can" % sprayVersion,
@@ -51,18 +51,7 @@ Here is a step-by-step explaination of what I did, so that you can use this to b
       )
     }
 
-    seq(Revolver.settings: _*)`
-
-What I like/Dislike About All This
-----------------------------------
-
-### Likes
-1. Spray is based on Akka, which is very familiar
-2. Spray routing is easy to use and pretty powerful
-3. Spray allows you to pick what you want a la carte.  Unlike other web frameworks, you only need to take what you'll use.
-
-### Dislikes
-1. Spray documentation lacks good examples and it's difficult to fine examples online.  You are pretty much on your own.
+    seq(Revolver.settings: _*)
 
 Known Issues
 ------------

@@ -11,7 +11,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= {
-  val sprayVersion = "1.1-M7"
+  val sprayVersion = "1.1-M8"
   val akkaVersion = "2.1.4"
   Seq(
   "io.spray" % "spray-can" % sprayVersion,
