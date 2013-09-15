@@ -23,6 +23,7 @@ Technologies Used
 2. Akka 2.2.0-RC1
 3. Scala 2.10.2
 4. ScalaTest 2.0.M6
+5. Sbt 0.13.0
 
 What's Going On
 ---------------
@@ -57,7 +58,7 @@ Here is a step-by-step explaination of what I did, so that you can use this to b
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
     "ch.qos.logback" % "logback-classic" % "1.0.12",
-    "org.scalatest" %% "scalatest" % "2.0.M6" % "test"
+    "org.scalatest" %% "scalatest" % "2.0.M7" % "test"
     )
   }
 
