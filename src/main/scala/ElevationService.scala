@@ -1,24 +1,26 @@
-package com.example 
+package com.christophergagne.sprayapidemo
 
-import akka.actor.{ Actor, ActorRef, Props }
+import akka.actor.{Actor, ActorRef}
+import akka.event.Logging
+import akka.io.IO
 
 import spray.routing.RequestContext
 import spray.httpx.SprayJsonSupport
-import spray.http._
-import spray.util._
+import spray.client.pipelining._
 
-import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.duration._
 import scala.util.{ Success, Failure }
 
 object ElevationService {
-
   case class Process(long: Double, lat: Double)
 }
 
-class ElevationService(googleApiConduit: ActorRef, requestContext: RequestContext) extends Actor {
+class ElevationService(requestContext: RequestContext) extends Actor with SprayHostLevelClient {
 
   import ElevationService._
+
+  implicit val system = context.system
+  import system.dispatcher
+  val log = Logging(system, getClass)
 
   def receive = {
     case Process(long,lat) =>
@@ -28,15 +30,19 @@ class ElevationService(googleApiConduit: ActorRef, requestContext: RequestContex
 
   def process(long: Double, lat: Double) = { 
 
-    import spray.client.HttpConduit._
+    log.info("Requesting elevation long: {}, lat: {}", long, lat)
+
     import ElevationJsonProtocol._
     import SprayJsonSupport._
-    
-    val pipeline = sendReceive(googleApiConduit) ~> unmarshal[GoogleElevationApiResult[Elevation]]
-    val response = pipeline(Get(s"/maps/api/elevation/json?locations=$long,$lat&sensor=false"))
-    response onComplete {
-      case Success(response) =>
-        requestContext.complete(response.results.head.elevation.toString)
+    val pipeline = sendReceive ~> unmarshal[GoogleElevationApiResult[Elevation]]
+
+    val responseFuture = pipeline{
+      Get(s"http://maps.googleapis.com/maps/api/elevation/json?locations=$long,$lat&sensor=false")
+    }
+    responseFuture onComplete {
+      case Success(GoogleElevationApiResult(_, Elevation(_, elevation) :: _)) =>
+        log.info("The elevation is: {} m", elevation)
+        requestContext.complete(elevation.toString)
 
       case Failure(error) =>
         requestContext.complete(error)

@@ -1,24 +1,26 @@
-package com.example 
+package com.christophergagne.sprayapidemo
 
-import akka.actor.{ Actor, ActorRef, Props }
+import akka.actor.{Actor, ActorRef}
+import akka.event.Logging
+import akka.io.IO
 
 import spray.routing.RequestContext
 import spray.httpx.SprayJsonSupport
-import spray.http._
-import spray.util._
+import spray.client.pipelining._
 
-import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.duration._
 import scala.util.{ Success, Failure }
 
 object TimezoneService {
-
   case class Process(long: Double, lat: Double, timestamp: String)
 }
 
-class TimezoneService(googleApiConduit: ActorRef, requestContext: RequestContext) extends Actor {
+class TimezoneService(requestContext: RequestContext) extends Actor with SprayHostLevelClient {
 
   import TimezoneService._
+
+  implicit val system = context.system
+  import system.dispatcher
+  val log = Logging(system, getClass)
 
   def receive = {
     case Process(long,lat,timestamp) =>
@@ -28,16 +30,19 @@ class TimezoneService(googleApiConduit: ActorRef, requestContext: RequestContext
 
   def process(long: Double, lat: Double, timestamp: String) = { 
 
-    import spray.client.HttpConduit._
+    log.info("Requesting timezone long: {}, lat: {}, timestamp: {}", long, lat, timestamp)
+
     import TimezoneJsonProtocol._
     import SprayJsonSupport._
-    
-    val pipeline = sendReceive(googleApiConduit) //~> unmarshal[GoogleTimezoneApiResult[Timezone]]
-    val response = pipeline(Get(s"/maps/api/timezone/json?location=$long,$lat&timestamp=$timestamp&sensor=false"))
-    response onComplete {
-      case Success(response) =>
-        println(response)
-        requestContext.complete(response)//.timeZoneName)
+    val pipeline = sendReceive ~> unmarshal[GoogleTimezoneApiResult[Timezone]]
+
+    val responseFuture = pipeline {
+      Get(s"https://maps.googleapis.com/maps/api/timezone/json?location=$long,$lat&timestamp=$timestamp&sensor=false")
+    }
+    responseFuture onComplete {
+      case Success(GoogleTimezoneApiResult(_, _, timeZoneName)) =>
+        log.info("The timezone is: {} m", timeZoneName)
+        requestContext.complete(timeZoneName)
 
       case Failure(error) =>
         requestContext.complete(error)

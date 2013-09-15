@@ -1,4 +1,4 @@
-package com.example
+package com.christophergagne.sprayapidemo
 
 import spray.json.{ JsonFormat, DefaultJsonProtocol }
 
