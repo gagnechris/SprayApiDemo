@@ -14,7 +14,7 @@ object ElevationService {
   case class Process(long: Double, lat: Double)
 }
 
-class ElevationService(requestContext: RequestContext) extends Actor with SprayHostLevelClient {
+class ElevationService(requestContext: RequestContext) extends Actor {
 
   import ElevationService._
 

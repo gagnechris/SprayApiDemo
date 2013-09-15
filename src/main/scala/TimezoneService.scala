@@ -14,7 +14,7 @@ object TimezoneService {
   case class Process(long: Double, lat: Double, timestamp: String)
 }
 
-class TimezoneService(requestContext: RequestContext) extends Actor with SprayHostLevelClient {
+class TimezoneService(requestContext: RequestContext) extends Actor {
 
   import TimezoneService._
 
