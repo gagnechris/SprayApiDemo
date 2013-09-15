@@ -13,6 +13,7 @@ Getting Started
 5. Use the api...Examples:
 
    a) http://localhost:8080/api/ElevationService/39/80
+   
    b) http://localhost:8080/api/TimezoneService/39/-119/1331161200
 
 Technologies Used
@@ -31,36 +32,36 @@ Here is a step-by-step explaination of what I did, so that you can use this to b
 1. Add spray to your ./project/plugins.sbt file.
 2. Add the spray resolver and bring in the required dependencis to your build.sbt file.
 ```
-name := "SprayApiDemo"
+  name := "SprayApiDemo"
 
-version := "0.1"
+  version := "0.1"
 
-scalaVersion := "2.10.2"
+  scalaVersion := "2.10.2"
 
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
+  scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
-resolvers ++= Seq(
-  "spray repo" at "http://repo.spray.io/"
-)
-
-libraryDependencies ++= {
-  val sprayVersion = "1.2-M8"
-  val akkaVersion = "2.2.0-RC1"
-  Seq(
-  "io.spray" % "spray-can" % sprayVersion,
-  "io.spray" % "spray-routing" % sprayVersion,
-  "io.spray" % "spray-testkit" % sprayVersion,
-  "io.spray" % "spray-client" % sprayVersion,
-  "io.spray" %%  "spray-json" % "1.2.5",
-  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-  "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
-  "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
-  "ch.qos.logback" % "logback-classic" % "1.0.12",
-  "org.scalatest" %% "scalatest" % "2.0.M6" % "test"
+  resolvers ++= Seq(
+    "spray repo" at "http://repo.spray.io/"
   )
-}
 
-seq(Revolver.settings: _*)
+  libraryDependencies ++= {
+    val sprayVersion = "1.2-M8"
+    val akkaVersion = "2.2.0-RC1"
+    Seq(
+    "io.spray" % "spray-can" % sprayVersion,
+    "io.spray" % "spray-routing" % sprayVersion,
+    "io.spray" % "spray-testkit" % sprayVersion,
+    "io.spray" % "spray-client" % sprayVersion,
+    "io.spray" %%  "spray-json" % "1.2.5",
+    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+    "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
+    "ch.qos.logback" % "logback-classic" % "1.0.12",
+    "org.scalatest" %% "scalatest" % "2.0.M6" % "test"
+    )
+  }
+
+  seq(Revolver.settings: _*)
 ```
 3. Create the Service App.  Here we called it ./src/main/scala/Boot.scala.  This will create your Actor system, and initialize the SprayApiDemoService class which is where our routings are maintained.  This is also the entry point for your application.
 4. Write our tests.  See ./src/test/scala/ElevationServiceSpec.scala as an example.  Here were are using the FreeSpec trait from the ScalaTest library to help test our services.
