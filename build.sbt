@@ -2,7 +2,7 @@ name := "SprayApiDemo"
 
 version := "0.1"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.3"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
@@ -11,7 +11,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= {
-  val sprayVersion = "1.2-RC2"
+  val sprayVersion = "1.2-RC4"
   val akkaVersion = "2.2.3"
   Seq(
   "io.spray" % "spray-can" % sprayVersion,
