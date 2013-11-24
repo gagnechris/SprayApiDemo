@@ -17,7 +17,7 @@ object Boot extends App {
     become {
       case b @ Bound(connection) => log.info(b.toString)
       case cf @ CommandFailed(command) => log.error(cf.toString)
-      case all => log.debug("Management Received a message from Akka.IO: " + all.toString)
+      case all => log.debug("SprayApiDemo App Received a message from Akka.IO: " + all.toString)
     }
   })
 
