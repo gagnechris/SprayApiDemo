@@ -28,3 +28,5 @@ libraryDependencies ++= {
 }
 
 seq(Revolver.settings: _*)
+
+atmosSettings
